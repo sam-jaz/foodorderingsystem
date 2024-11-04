@@ -1,0 +1,98 @@
+# This is a sample Python script.
+
+# Press Shift+F10 to execute it or replace it with your code.
+# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+
+
+def print_hi(name):
+    # Use a breakpoint in the code line below to debug your script.
+    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+
+# Press the green button in the gutter to run the script.
+if __name__ == '__main__':
+    print_hi('PyCharm')
+
+# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+# food_ordering_system.py
+
+# Initialize the menu with items, their prices, and availability using a dictionary
+menu = {
+    "Burger": {"price": 5.99, "available": True},
+    "Pizza": {"price": 8.49, "available": True},
+    "Pasta": {"price": 7.29, "available": False},  # Sold Out
+    "Salad": {"price": 4.99, "available": True},
+    "Soda": {"price": 1.99, "available": True},
+    "Coffee": {"price": 2.49, "available": True}
+}
+
+
+# Function to display the menu
+def display_menu():
+    print("\n--- QuickBite Food Ordering System ---")
+    print("Available Menu:")
+    for item, details in menu.items():
+        if details["available"]:
+            print(f"- {item}: £{details['price']:.2f}")
+        else:
+            print(f"- {item} - Sold Out")
+    print("--------------------------------")
+
+
+# Function to add an item to the cart
+def add_to_cart(cart):
+    item_name = input("Enter the name of the item you want to order (or type 'checkout' to finish): ").strip()
+    if item_name.lower() == 'checkout':
+        return False  # Signal to checkout
+
+    if item_name in menu:
+        if menu[item_name]["available"]:
+            quantity = input(f"Enter quantity for {item_name}: ").strip()
+            if quantity.isdigit() and int(quantity) > 0:
+                cart.append((item_name, int(quantity)))
+                print(f"{quantity} x {item_name} added to cart.")
+            else:
+                print("Invalid quantity. Please enter a positive integer.")
+        else:
+            print(f"Sorry, {item_name} is currently sold out.")
+    else:
+        print("Item not found in the menu. Please select a valid item.")
+
+    return True  # Continue adding items
+
+
+# Function to display the cart and calculate the total
+def checkout(cart):
+    print("\nYour Cart:")
+    total_cost = 0
+    for item_name, quantity in cart:
+        item_total = quantity * menu[item_name]["price"]
+        print(f"{item_name}: {quantity} x £{menu[item_name]['price']:.2f} = £{item_total:.2f}")
+        total_cost += item_total
+
+    print(f"Grand Total: £{total_cost:.2f}")
+    return total_cost
+
+
+# Main loop to run the food ordering system
+def main():
+    cart = []  # Initialize an empty cart
+    while True:
+        display_menu()
+        if not add_to_cart(cart):  # If user types 'checkout', exit the loop
+            break
+
+    if cart:  # Only checkout if there are items in the cart
+        print("\nProceeding to checkout...")
+        total = checkout(cart)
+        print(f"Thank you for your order! Total amount due: £{total:.2f}")
+    else:
+        print("No items in the cart. Exiting the system.")
+
+
+# Start the food ordering system
+if __name__ == "__main__":
+    main()
+
+menu
